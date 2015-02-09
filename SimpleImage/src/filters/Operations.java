@@ -1,13 +1,10 @@
-package photochopp;
+package filters;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-/**
- * @author Victor Ferreira Teixeira da Silva
- */
-public class Operacoes {
+public class Operations {
     /**Get the alpha value of a RGB pixel*/
     private static int getAlpha(int pixel){
         return(pixel>>24) & 0xFF;
@@ -42,7 +39,7 @@ public class Operacoes {
        
         BufferedImage newImage = new BufferedImage(width,height,image.getType());
         
-        /**Reading the rgb and breaking it down to red , green and blue*/
+        /*Reading the rgb and breaking it down to red , green and blue*/
         for(int w =0;w<width;w++){
             for(int h=0;h<height;h++){
                 int pixel = image.getRGB(w, h);
@@ -50,7 +47,7 @@ public class Operacoes {
                 int greenC = 255 - getGreen(pixel);
                 int blueC = 255 - getBlue(pixel);
                 
-                /**Making the color of the pixel by combining the bit of each position
+                /*Making the color of the pixel by combining the bit of each position
                   00000000 00000000 00000000 11111111
                   ^ Alpha  ^Red     ^Green   ^Blue
                  */
@@ -69,7 +66,7 @@ public class Operacoes {
        
         BufferedImage newImage = new BufferedImage(width,height,image.getType());
         
-        /**Reading the rgb and breaking it down to red , green and blue*/
+        /*Reading the rgb and breaking it down to red , green and blue*/
         for(int w =0;w<width;w++){
             for(int h=0;h<height;h++){
                 int pixel = image.getRGB(w, h);
@@ -86,7 +83,7 @@ public class Operacoes {
     }
     
     /**Convolution Operation - values are a image and a filter - return a image with the effect applied*/
-    public static BufferedImage convolution(BufferedImage image,Filtro filter){
+    public static BufferedImage convolution(BufferedImage image,Filter  filter){
         int width = image.getWidth();
         int height = image.getHeight();
         int u = filter.getSize() / 2;
@@ -101,7 +98,7 @@ public class Operacoes {
         int k = filter.getSize() / 2;
         
         if(filter.getSize()%2 ==0){
-            throw new DadoInvalidoException();
+            throw new InvalidDataException();
         }
         
         for(int x=0;x<width;x++){
@@ -115,9 +112,9 @@ public class Operacoes {
                        
                        if(filter.validPixel(x-i, y-j, image)){
                             int pixel = image.getRGB(x-i, y-j);
-                            resultantR+= (getRed(pixel))*filter.vetor[i+k][j+k];
-                            resultantG+= (getGreen(pixel))*filter.vetor[i+k][j+k];
-                            resultantB+= (getBlue(pixel))*filter.vetor[i+k][j+k];  
+                            resultantR+= (getRed(pixel))*filter.vector[i+k][j+k];
+                            resultantG+= (getGreen(pixel))*filter.vector[i+k][j+k];
+                            resultantB+= (getBlue(pixel))*filter.vector[i+k][j+k];  
                            
                        }
                        
@@ -161,8 +158,8 @@ public class Operacoes {
    
     /**limiar borders - receive a image and a double value for the effect - return a image with the effect applied*/ 
     public static BufferedImage bordas(BufferedImage image,double limiar){
-        FiltroSobelHorizontal horizontal = new FiltroSobelHorizontal();
-        FiltroSobelVertical vertical = new FiltroSobelVertical();
+        HorizontalSobelFilter horizontal = new HorizontalSobelFilter();
+        VerticalSobelFilter vertical = new VerticalSobelFilter();
         
         BufferedImage newImage = new BufferedImage(image.getWidth(),image.getHeight(),image.getType());
         BufferedImage h  = convolution(shadesOfGrey(image),horizontal);
@@ -184,7 +181,7 @@ public class Operacoes {
         return newImage;
     }
     
-    /**Check the length of a array and a integer value  - return true if both are equal */
+    /**Check the length of a array is equal to a integer value  - return true if both are equal */
     public static boolean compareLength(String[] val,int size){
         if(val.length == size)
             return true;

@@ -1,26 +1,22 @@
-package photochopp;
+package filters;
 import java.awt.image.BufferedImage;
-
-/**
- * @author Victor Ferreira Teixeira da Silva
- */
-public class Filtro {
+public class Filter {
     private int lines;
     private int cols;
-    protected double[][]vetor = new double[lines][cols];
+    protected double[][]vector = new double[lines][cols];
     
     /**You can set the length of both dimentions of the matrix*/
-    public Filtro(int lines,int cols){
+    public Filter(int lines,int cols){
         this.lines = lines;
         this.cols = cols;
-        double[][]newVetor = new double[lines][cols];
-        vetor = newVetor;
+        double[][]newVector = new double[lines][cols];
+        vector = newVector;
     }
     
     /**This will make the filter a square matrix*/
-    public Filtro(int k){
+    public Filter(int k){
         double[][]newVetor = new double[k][k];
-        vetor = newVetor;
+        vector = newVetor;
         this.lines = k;
         this.cols = k;
     }
@@ -38,7 +34,7 @@ public class Filtro {
     }
     /**Set a value in the filter matrix*/
     public void setValue(int x,int y,double value){
-        vetor[x][y] = value;
+        vector[x][y] = value;
     }
 
     /**Check if the pixel is on the image */
