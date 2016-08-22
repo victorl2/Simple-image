@@ -1,3 +1,3 @@
 # Simple Image
-<p>A easy java implementation to manipulate images</p>
+<p>Custom java functions that make simple image manipulations</p>
 
